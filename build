@@ -6,9 +6,15 @@ if [ ! -d "dogecoin" ]; then
     git clone https://github.com/xanimo/dogecoin
     pushd /dogecoin
         git checkout 1.14.7-dev-depends
+        if [ ! -d "depends/SDKs" ]; then
+            wget https://gist.githubusercontent.com/xanimo/7b3ae8f43e3b8b3834e7e281dc263de2/raw/22c72d80ce1d8e5710a9a2d1edaa8efe2c6f621d/macos-sdk.sh
+            chmod +x macos-sdk.sh
+            ./macos-sdk.sh
+            rm macos-sdk.sh
+        fi
     popd
 fi
 
 docker buildx build -t xanimo/dogecoin:darwin . \
---memory=10000 \
+--memory=14000 \
 --load 2> $PWD/build-log.txt | sleep 2 | tail -f $PWD/build-log.txt
