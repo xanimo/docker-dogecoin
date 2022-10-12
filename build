@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker buildx build -t xanimo/dogecoin:darwin . \
+--load 2> $PWD/build-log.txt | sleep 2 | tail -f $PWD/build-log.txt
