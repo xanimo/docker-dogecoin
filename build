@@ -10,4 +10,5 @@ if [ ! -d "dogecoin" ]; then
 fi
 
 docker buildx build -t xanimo/dogecoin:darwin . \
+--memory=10000 \
 --load 2> $PWD/build-log.txt | sleep 2 | tail -f $PWD/build-log.txt
