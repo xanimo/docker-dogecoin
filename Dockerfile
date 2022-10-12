@@ -36,6 +36,4 @@ COPY /dogecoin /dogecoin
 
 WORKDIR /dogecoin
 
-RUN apt-get update
-RUN apt-get install -y libc++abi-dev
 RUN make -C depends HOST=x86_64-apple-darwin11 NO_QT=1
