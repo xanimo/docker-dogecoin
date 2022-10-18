@@ -1,0 +1,91 @@
+#!/bin/bash
+export LC_ALL=C
+set -e -o pipefail
+
+if [ $# -eq 0 ]; then
+    echo "No arguments provided"
+    exit 1
+fi
+
+config_env() {
+    case "$TARGET_HOST_TRIPLET" in
+        "arm-linux-gnueabihf")
+            OS=linux
+            TARGET_ARCH="arm32v7"
+        ;;
+        "aarch64-linux-gnu")
+            OS=linux
+            TARGET_ARCH="arm64v8"
+        ;;
+        "x86_64-pc-linux-gnu")
+            OS=linux
+            TARGET_ARCH="amd64"
+        ;;
+        "i686-pc-linux-gnu")
+            OS=linux
+            TARGET_ARCH="amd64"
+        ;;
+        "x86_64-w64-mingw32")
+            OS=linux
+            TARGET_ARCH="amd64"
+        ;;
+        "i686-w64-mingw32")
+            OS=linux
+            TARGET_ARCH="amd64"
+        ;;
+        "x86_64-apple-darwin11")
+            OS=linux
+            TARGET_ARCH="amd64"
+        ;;
+        "all")
+            ALL_HOST_TRIPLETS=("x86_64-pc-linux-gnu" "i686-pc-linux-gnu" "aarch64-linux-gnu" "arm-linux-gnueabihf" "x86_64-w64-mingw32" "i686-w64-mingw32" "x86_64-apple-darwin11")
+        ;;
+        *)
+            ERROR=1
+        ;;
+    esac
+}
+
+ALL_HOST_TRIPLETS=""
+TARGET_HOST_TRIPLET=""
+for i in "$@"
+do
+case $i in
+    -h=*|--host=*)
+        HOST="${i#*=}"
+        TARGET_HOST_TRIPLET=($HOST)
+        config_env
+    ;;
+    *)
+        ERROR=1
+    ;;
+esac
+done
+
+if [ "$ERROR" ]; then
+    echo "Please provide a host to build and try again."
+    exit $ERROR
+fi
+
+build() {
+    # there is no i386/ubuntu:focal image so we have to build on amd64 hence DPKG_ARCH
+    docker buildx build \
+    --build-arg FLAVOR=${FLAVOR:-"focal"} \
+    --build-arg ARCH=$TARGET_ARCH \
+    --build-arg TARGET_HOST=$TARGET_HOST_TRIPLET \
+    -t xanimo/dogecoin:$TARGET_HOST_TRIPLET . --load
+}
+
+if [[ "$ALL_HOST_TRIPLETS" != "" ]]; then
+    END=$((${#ALL_HOST_TRIPLETS[@]} - 1))
+    for i in "${!ALL_HOST_TRIPLETS[@]}"
+    do
+    :
+        TARGET_HOST_TRIPLET="${ALL_HOST_TRIPLETS[$i]}"
+        config_env
+        build
+    done
+else
+        config_env
+        build 
+fi

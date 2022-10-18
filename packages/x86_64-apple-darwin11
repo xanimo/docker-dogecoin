@@ -1,0 +1,1 @@
+cmake imagemagick libcap-dev librsvg2-bin libz-dev libtiff-tools libtinfo5 python3-setuptools xorriso

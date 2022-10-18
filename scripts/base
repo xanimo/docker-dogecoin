@@ -1,0 +1,38 @@
+#!/bin/bash
+export LC_ALL=C
+
+USE_SUDO="sudo "
+for i in "$@"
+do
+case $i in
+    -h=*|--host=*)
+        HOST="${i#*=}"
+    ;;
+    -d|--docker)
+        USE_SUDO=""
+    ;;
+    *)
+        ERROR=1
+    ;;
+esac
+done
+
+if [ "$ERROR" ]; then
+    echo "Please provide a host to build and try again."
+    exit $ERROR
+fi
+
+check_tools() {
+    for cmd in "$@"; do
+        if ! command -v "$cmd" > /dev/null 2>&1; then
+            echo "ERR: This script requires that '$cmd' is installed and available in your \$PATH"
+            echo $@
+            DEBIAN_FRONTEND=noninteractive \
+            $USE_SUDO apt-get -y --no-install-recommends install $@
+        fi
+    done
+}
+
+$USE_SUDO apt-get update
+check_tools build-essential libtool autotools-dev automake pkg-config bsdmainutils curl ca-certificates ccache python3 rsync git procps bison
+check_tools $(cat $HOST)
