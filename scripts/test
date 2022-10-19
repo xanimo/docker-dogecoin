@@ -1,0 +1,56 @@
+#!/bin/bash
+export LC_ALL=C
+set -e -o pipefail
+
+if [ $# -eq 0 ]; then
+    echo "No arguments provided"
+    exit 1
+fi
+
+USE_SUDO="sudo "
+for i in "$@"
+do
+case $i in
+    -h=*|--host=*)
+        HOST="${i#*=}"
+    ;;
+    -d|--docker)
+        USE_SUDO=""
+    ;;
+    *)
+        ERROR=1
+    ;;
+esac
+done
+
+if [ "$ERROR" ]; then
+    echo "Please provide a host to build and try again."
+    exit $ERROR
+fi
+
+check_tools() {
+    for cmd in "$@"; do
+        if ! command -v "$cmd" > /dev/null 2>&1; then
+            echo "ERR: This script requires that '$cmd' is installed and available in your \$PATH"
+            echo $@
+            DEBIAN_FRONTEND=noninteractive \
+            $USE_SUDO apt-get -y --no-install-recommends install $@
+        fi
+    done
+}
+
+if [ "$ERROR" ]; then
+    echo "Please provide a host to build and try again."
+    exit $ERROR
+fi
+
+if [[ $HOST != *"-apple-darwin11"* ]]; then
+    make check -j$(nproc)
+    check_tools python3-dev
+    echo "alias python=python3" >> ~/.bashrc; source ~/.bashrc;
+    source $HOST
+    if [ $checksecurity == 1 ]; then make -C src check-security; fi
+    if [ $checksymbols == 1 ]; then make -C src check-symbols; fi
+    ./qa/pull-tester/install-deps.sh
+    ./qa/pull-tester/rpc-tests.py --coverage
+fi

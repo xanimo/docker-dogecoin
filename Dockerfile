@@ -6,6 +6,7 @@ FROM ${ARCH:-"amd64"}/ubuntu:${FLAVOR} AS base
 ARG TARGET_HOST
 
 COPY /scripts/base .
+COPY /scripts/test .
 COPY /packages/${TARGET_HOST} .
 
 # configure shell to use bash
@@ -47,9 +48,5 @@ RUN make VERBOSE=1 -j$(nproc)
 # functional test suite
 FROM build AS test
 ARG TARGET_HOST
-RUN apt-get install -y python3-dev
-RUN echo "alias python=python3" >> ~/.bashrc; source ~/.bashrc;
-RUN if [[ $(source $TARGET_HOST; echo $checksecurity) == 1 ]]; then make -C src check-security; fi
-RUN if [[ $(source $TARGET_HOST; echo $checksymbols) == 1 ]]; then make -C src check-symbols; fi
-RUN ./qa/pull-tester/install-deps.sh
-RUN ./qa/pull-tester/rpc-tests.py --coverage
+
+RUN ./test --host=${TARGET_HOST}
