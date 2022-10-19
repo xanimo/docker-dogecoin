@@ -1,0 +1,425 @@
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 1.66kB done
+#1 DONE 0.0s
+
+#2 [internal] load .dockerignore
+#2 transferring context: 2B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/amd64/ubuntu:focal
+#3 DONE 0.7s
+
+#4 [base 1/6] FROM docker.io/amd64/ubuntu:focal@sha256:e722c7335fdd0ce77044ab5942cb1fbd2b5f60d1f5416acfcdb0814b2baf7898
+#4 resolve docker.io/amd64/ubuntu:focal@sha256:e722c7335fdd0ce77044ab5942cb1fbd2b5f60d1f5416acfcdb0814b2baf7898 done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 100.90kB 0.1s done
+#5 DONE 0.1s
+
+#10 [base 6/6] RUN if [[ x86_64-pc-linux-gnu == *"-w64-mingw32"* ]]; then         dpkg -s mono-runtime && sudo apt-get remove mono-runtime || echo "Very nothing to uninstall.";         update-alternatives --set x86_64-pc-linux-gnu-gcc /usr/bin/x86_64-pc-linux-gnu-gcc-posix;         update-alternatives --set x86_64-pc-linux-gnu-g++ /usr/bin/x86_64-pc-linux-gnu-g++-posix;         update-binfmts --import /usr/share/binfmts/wine;     fi
+#10 CACHED
+
+#9 [base 5/6] RUN ./base --host=x86_64-pc-linux-gnu --docker
+#9 CACHED
+
+#11 [depends 1/3] COPY /dogecoin /dogecoin
+#11 CACHED
+
+#13 [depends 3/3] RUN make -C depends HOST=x86_64-pc-linux-gnu NO_QT=1
+#13 CACHED
+
+#20 [test 4/6] RUN if [[ $(source $HOST; echo $checksymbols) == 1 ]]; then make -C src check-symbols; fi
+#20 CACHED
+
+#17 [test 1/6] RUN apt-get install -y python3-dev
+#17 CACHED
+
+#7 [base 3/6] COPY /packages/x86_64-pc-linux-gnu .
+#7 CACHED
+
+#19 [test 3/6] RUN if [[ $(source $HOST; echo $checksecurity) == 1 ]]; then make -C src check-security; fi
+#19 CACHED
+
+#8 [base 4/6] RUN if [[ x86_64-pc-linux-gnu == *"-w64-mingw32"* ]]; then         dpkg --add-architecture i386;     fi
+#8 CACHED
+
+#14 [build 1/3] RUN ./autogen.sh
+#14 CACHED
+
+#18 [test 2/6] RUN echo "alias python=python3" >> ~/.bashrc; source ~/.bashrc;
+#18 CACHED
+
+#6 [base 2/6] COPY /scripts/base .
+#6 CACHED
+
+#12 [depends 2/3] WORKDIR /dogecoin
+#12 CACHED
+
+#15 [build 2/3] RUN ./configure --prefix=`pwd`/depends/x86_64-pc-linux-gnu $configopts
+#15 CACHED
+
+#16 [build 3/3] RUN make VERBOSE=1 -j$(nproc)
+#16 CACHED
+
+#21 [test 5/6] RUN ./qa/pull-tester/install-deps.sh
+#21 CACHED
+
+#22 [test 6/6] RUN ./qa/pull-tester/rpc-tests.py --coverage
+#22 0.101 + ./qa/pull-tester/rpc-tests.py --coverage
+#22 22.72 Initializing coverage directory at /tmp/coverage41tyw2qd
+#22 22.72 
+#22 22.72 ..................................................
+#22 48.25 [1mp2p-fullblocktest.py[0m:
+#22 48.25 Pass: [1mTrue[0m, Duration: 25 s
+#22 48.25 
+#22 48.25 ..........
+#22 54.27 [1mwallet-hd.py[0m:
+#22 54.27 Pass: [1mTrue[0m, Duration: 31 s
+#22 54.27 
+#22 54.27 
+#22 54.27 [1mauxpow.py[0m:
+#22 54.27 Pass: [1mTrue[0m, Duration: 6 s
+#22 54.27 
+#22 54.27 ................
+#22 62.78 [1mgetauxblock.py[0m:
+#22 62.78 Pass: [1mTrue[0m, Duration: 9 s
+#22 62.78 
+#22 62.78 .........
+#22 67.79 [1mwallet-accounts.py[0m:
+#22 67.79 Pass: [1mTrue[0m, Duration: 5 s
+#22 67.79 
+#22 67.79 ........
+#22 72.30 [1mfundrawtransaction.py[0m:
+#22 72.30 Pass: [1mTrue[0m, Duration: 49 s
+#22 72.30 
+#22 72.30 .....
+#22 75.31 [1mwallet-dump.py[0m:
+#22 75.31 Pass: [1mTrue[0m, Duration: 7 s
+#22 75.31 
+#22 75.31 ................................................
+#22 99.84 [1mp2p-policy.py[0m:
+#22 99.84 Pass: [1mTrue[0m, Duration: 24 s
+#22 99.84 
+#22 99.84 ............
+#22 106.4 [1mlisttransactions.py[0m:
+#22 106.4 Pass: [1mTrue[0m, Duration: 34 s
+#22 106.4 
+#22 106.4 ...........................
+#22 120.4 [1mp2p-acceptblock.py[0m:
+#22 120.4 Pass: [1mTrue[0m, Duration: 20 s
+#22 120.4 
+#22 120.4 .........
+#22 125.4 [1mwallet.py[0m:
+#22 125.4 Pass: [1mTrue[0m, Duration: 71 s
+#22 125.4 
+#22 125.4 ....................
+#22 136.4 [1mzapwallettxes.py[0m:
+#22 136.4 Pass: [1mTrue[0m, Duration: 15 s
+#22 136.4 
+#22 136.4 
+#22 136.4 [1msendheaders.py[0m:
+#22 136.4 Pass: [1mTrue[0m, Duration: 30 s
+#22 136.4 
+#22 136.4 .
+#22 137.4 [1mimportmulti.py[0m:
+#22 137.4 Pass: [1mTrue[0m, Duration: 12 s
+#22 137.4 
+#22 137.4 ..........
+#22 142.9 [1mmempool_limit.py[0m:
+#22 142.9 Pass: [1mTrue[0m, Duration: 7 s
+#22 142.9 
+#22 142.9 .......
+#22 146.9 [1mmerkle_blocks.py[0m:
+#22 146.9 Pass: [1mTrue[0m, Duration: 10 s
+#22 146.9 
+#22 146.9 ........
+#22 151.4 [1mreceivedby.py[0m:
+#22 151.4 Pass: [1mTrue[0m, Duration: 14 s
+#22 151.4 
+#22 151.4 ...
+#22 153.4 [1mwalletbackup.py[0m:
+#22 153.4 Pass: [1mTrue[0m, Duration: 130 s
+#22 153.4 
+#22 153.4 ............
+#22 160.0 [1mabandonconflict.py[0m:
+#22 160.0 Pass: [1mTrue[0m, Duration: 17 s
+#22 160.0 
+#22 160.0 .......
+#22 164.0 [1mreindex.py[0m:
+#22 164.0 Pass: [1mTrue[0m, Duration: 12 s
+#22 164.0 
+#22 164.0 ..
+#22 165.5 [1mp2p-addr.py[0m:
+#22 165.5 Pass: [1mTrue[0m, Duration: 12 s
+#22 165.5 
+#22 165.5 ..
+#22 167.0 [1mp2p_invalid_locator.py[0m:
+#22 167.0 Pass: [1mTrue[0m, Duration: 3 s
+#22 167.0 
+#22 167.0 .
+#22 168.5 [1mrawtransactions.py[0m:
+#22 168.5 Pass: [1mTrue[0m, Duration: 21 s
+#22 168.5 
+#22 168.5 
+#22 168.5 [1mmempool_resurrect_test.py[0m:
+#22 168.5 Pass: [1mTrue[0m, Duration: 3 s
+#22 168.5 
+#22 168.5 ...................
+#22 179.0 [1mtxn_doublespend.py --mineblock[0m:
+#22 179.0 Pass: [1mTrue[0m, Duration: 11 s
+#22 179.0 
+#22 179.0 
+#22 179.0 [1mtxn_clone.py[0m:
+#22 179.0 Pass: [1mTrue[0m, Duration: 11 s
+#22 179.0 
+#22 179.0 ..
+#22 180.5 [1mp2p-tx-download.py[0m:
+#22 180.5 Pass: [1mTrue[0m, Duration: 20 s
+#22 180.5 
+#22 180.5 .
+#22 181.5 [1mmempool_spendcoinbase.py[0m:
+#22 181.5 Pass: [1mTrue[0m, Duration: 2 s
+#22 181.5 
+#22 181.5 ..............
+#22 189.0 [1mhttpbasics.py[0m:
+#22 189.0 Pass: [1mTrue[0m, Duration: 7 s
+#22 189.0 
+#22 189.0 ......
+#22 193.0 [1mrest.py[0m:
+#22 193.0 Pass: [1mTrue[0m, Duration: 14 s
+#22 193.0 
+#22 193.0 
+#22 193.0 [1mmulti_rpc.py[0m:
+#22 193.0 Pass: [1mTrue[0m, Duration: 4 s
+#22 193.0 
+#22 193.0 .
+#22 194.0 [1mmempool_reorg.py[0m:
+#22 194.0 Pass: [1mTrue[0m, Duration: 13 s
+#22 194.0 
+#22 194.0 ..
+#22 195.6 [1msignrawtransactions.py[0m:
+#22 195.6 Pass: [1mTrue[0m, Duration: 2 s
+#22 195.6 
+#22 195.6 .....
+#22 198.6 [1mdecodescript.py[0m:
+#22 198.6 Pass: [1mTrue[0m, Duration: 3 s
+#22 198.6 
+#22 198.6 .
+#22 199.6 [1mgetchaintips.py[0m:
+#22 199.6 Pass: [1mTrue[0m, Duration: 31 s
+#22 199.6 
+#22 199.6 .....
+#22 204.1 [1mdisablewallet.py[0m:
+#22 204.1 Pass: [1mTrue[0m, Duration: 3 s
+#22 204.1 
+#22 204.1 
+#22 204.1 [1mproxy_test.py[0m:
+#22 204.1 Pass: [1mTrue[0m, Duration: 10 s
+#22 204.1 
+#22 204.1 
+#22 204.1 [1mnodehandling.py[0m:
+#22 204.1 Pass: [1mTrue[0m, Duration: 9 s
+#22 204.1 
+#22 204.1 
+#22 204.1 [1mblockchain.py[0m:
+#22 204.1 Pass: [1mTrue[0m, Duration: 5 s
+#22 204.1 
+#22 204.1 ...
+#22 206.1 [1mp2p-mempool.py[0m:
+#22 206.1 Pass: [1mTrue[0m, Duration: 3 s
+#22 206.1 
+#22 206.1 ...
+#22 208.1 [1minvalidblockrequest.py[0m:
+#22 208.1 Pass: [1mTrue[0m, Duration: 4 s
+#22 208.1 
+#22 208.1 ..
+#22 209.6 [1mkeypool.py[0m:
+#22 209.6 Pass: [1mTrue[0m, Duration: 7 s
+#22 209.6 
+#22 209.6 ...
+#22 211.6 [1mprioritise_transaction.py[0m:
+#22 211.6 Pass: [1mTrue[0m, Duration: 8 s
+#22 211.6 
+#22 211.6 ...
+#22 213.6 [1mimportprunedfunds.py[0m:
+#22 213.6 Pass: [1mTrue[0m, Duration: 5 s
+#22 213.6 
+#22 213.6 .
+#22 215.1 [1mpreciousblock.py[0m:
+#22 215.1 Pass: [1mTrue[0m, Duration: 8 s
+#22 215.1 
+#22 215.1 
+#22 215.1 [1msignmessages.py[0m:
+#22 215.1 Pass: [1mTrue[0m, Duration: 3 s
+#22 215.1 
+#22 215.1 .
+#22 216.1 [1mcreateauxblock.py[0m:
+#22 216.1 Pass: [1mTrue[0m, Duration: 6 s
+#22 216.1 
+#22 216.1 ...............................
+#22 232.7 [1mimport-rescan.py[0m:
+#22 232.7 Pass: [1mTrue[0m, Duration: 18 s
+#22 232.7 
+#22 232.7 
+#22 232.7 [1mpaytxfee.py[0m:
+#22 232.7 Pass: [1mTrue[0m, Duration: 17 s
+#22 232.7 
+#22 232.7 ...
+#22 234.7 [1mfeelimit.py[0m:
+#22 234.7 Pass: [1mTrue[0m, Duration: 18 s
+#22 234.7 
+#22 234.7 .....
+#22 237.7 [1mrpcnamedargs.py[0m:
+#22 237.7 Pass: [1mTrue[0m, Duration: 3 s
+#22 237.7 
+#22 237.7 .........
+#22 242.7 [1mdustlimits.py[0m:
+#22 242.7 Pass: [1mTrue[0m, Duration: 28 s
+#22 242.7 
+#22 242.7 ..............
+#22 250.7 [1mbumpfee.py[0m:
+#22 250.7 Pass: [1mTrue[0m, Duration: 17 s
+#22 250.7 
+#22 250.7 
+#22 250.7 [1mp2p-leaktests.py[0m:
+#22 250.7 Pass: [1mTrue[0m, Duration: 8 s
+#22 250.7 
+#22 250.7 .......
+#22 254.7 [1mreplace-by-fee.py[0m:
+#22 254.7 Pass: [1mTrue[0m, Duration: 4 s
+#22 254.7 
+#22 254.7 ........
+#22 259.2 [1mrescan.py[0m:
+#22 259.2 Pass: [1mTrue[0m, Duration: 8 s
+#22 259.2 
+#22 259.2 ............
+#22 265.7 [1mwallet_create_tx.py[0m:
+#22 265.7 Pass: [1mTrue[0m, Duration: 11 s
+#22 265.7 
+#22 265.7 .....
+#22 269.2 [1maddnode.py[0m:
+#22 269.2 Pass: [1mTrue[0m, Duration: 3 s
+#22 269.2 
+#22 269.2 
+#22 269.2 [1mlistsinceblock.py[0m:
+#22 269.2 Pass: [1mTrue[0m, Duration: 31 s
+#22 269.2 
+#22 269.2 .....
+#22 272.2 [1mliststucktransactions.py[0m:
+#22 272.2 Pass: [1mTrue[0m, Duration: 13 s
+#22 272.2 
+#22 272.2 ........................
+#22 284.7 [1mzmq_test.py[0m:
+#22 284.7 Pass: [1mTrue[0m, Duration: 16 s
+#22 284.7 
+#22 284.7 ..........
+#22 289.8 [1msetmaxconnections.py[0m:
+#22 289.8 Pass: [1mTrue[0m, Duration: 58 s
+#22 289.8 
+#22 289.8 [1mTEST                           | PASSED | DURATION
+#22 289.8 
+#22 289.8 [0mp2p-fullblocktest.py           | True   | 25 s
+#22 289.8 wallet-hd.py                   | True   | 31 s
+#22 289.8 auxpow.py                      | True   | 6 s
+#22 289.8 getauxblock.py                 | True   | 9 s
+#22 289.8 wallet-accounts.py             | True   | 5 s
+#22 289.8 fundrawtransaction.py          | True   | 49 s
+#22 289.8 wallet-dump.py                 | True   | 7 s
+#22 289.8 p2p-policy.py                  | True   | 24 s
+#22 289.8 listtransactions.py            | True   | 34 s
+#22 289.8 p2p-acceptblock.py             | True   | 20 s
+#22 289.8 wallet.py                      | True   | 71 s
+#22 289.8 zapwallettxes.py               | True   | 15 s
+#22 289.8 sendheaders.py                 | True   | 30 s
+#22 289.8 importmulti.py                 | True   | 12 s
+#22 289.8 mempool_limit.py               | True   | 7 s
+#22 289.8 merkle_blocks.py               | True   | 10 s
+#22 289.8 receivedby.py                  | True   | 14 s
+#22 289.8 walletbackup.py                | True   | 130 s
+#22 289.8 abandonconflict.py             | True   | 17 s
+#22 289.8 reindex.py                     | True   | 12 s
+#22 289.8 p2p-addr.py                    | True   | 12 s
+#22 289.8 p2p_invalid_locator.py         | True   | 3 s
+#22 289.8 rawtransactions.py             | True   | 21 s
+#22 289.8 mempool_resurrect_test.py      | True   | 3 s
+#22 289.8 txn_doublespend.py --mineblock | True   | 11 s
+#22 289.8 txn_clone.py                   | True   | 11 s
+#22 289.8 p2p-tx-download.py             | True   | 20 s
+#22 289.8 mempool_spendcoinbase.py       | True   | 2 s
+#22 289.8 httpbasics.py                  | True   | 7 s
+#22 289.8 rest.py                        | True   | 14 s
+#22 289.8 multi_rpc.py                   | True   | 4 s
+#22 289.8 mempool_reorg.py               | True   | 13 s
+#22 289.8 signrawtransactions.py         | True   | 2 s
+#22 289.8 decodescript.py                | True   | 3 s
+#22 289.8 getchaintips.py                | True   | 31 s
+#22 289.8 disablewallet.py               | True   | 3 s
+#22 289.8 proxy_test.py                  | True   | 10 s
+#22 289.8 nodehandling.py                | True   | 9 s
+#22 289.8 blockchain.py                  | True   | 5 s
+#22 289.8 p2p-mempool.py                 | True   | 3 s
+#22 289.8 invalidblockrequest.py         | True   | 4 s
+#22 289.8 keypool.py                     | True   | 7 s
+#22 289.8 prioritise_transaction.py      | True   | 8 s
+#22 289.8 importprunedfunds.py           | True   | 5 s
+#22 289.8 preciousblock.py               | True   | 8 s
+#22 289.8 signmessages.py                | True   | 3 s
+#22 289.8 createauxblock.py              | True   | 6 s
+#22 289.8 import-rescan.py               | True   | 18 s
+#22 289.8 paytxfee.py                    | True   | 17 s
+#22 289.8 feelimit.py                    | True   | 18 s
+#22 289.8 rpcnamedargs.py                | True   | 3 s
+#22 289.8 dustlimits.py                  | True   | 28 s
+#22 289.8 bumpfee.py                     | True   | 17 s
+#22 289.8 p2p-leaktests.py               | True   | 8 s
+#22 289.8 replace-by-fee.py              | True   | 4 s
+#22 289.8 rescan.py                      | True   | 8 s
+#22 289.8 wallet_create_tx.py            | True   | 11 s
+#22 289.8 addnode.py                     | True   | 3 s
+#22 289.8 listsinceblock.py              | True   | 31 s
+#22 289.8 liststucktransactions.py       | True   | 13 s
+#22 289.8 zmq_test.py                    | True   | 16 s
+#22 289.8 setmaxconnections.py           | True   | 58 s
+#22 289.8 [1m
+#22 289.8 ALL                            | True   | 1009 s (accumulated)[0m
+#22 289.8 
+#22 289.8 Runtime: 267 s
+#22 289.8 Uncovered RPC commands:
+#22 289.8   - estimatefee
+#22 289.8   - estimatepriority
+#22 289.8   - estimatesmartfee
+#22 289.8   - estimatesmartpriority
+#22 289.8   - getaddednodeinfo
+#22 289.8   - getdifficulty
+#22 289.8   - getinfo
+#22 289.8   - getmemoryinfo
+#22 289.8   - getmempoolancestors
+#22 289.8   - getmempooldescendants
+#22 289.8   - getmempoolentry
+#22 289.8   - getmininginfo
+#22 289.8   - getnettotals
+#22 289.8   - getnetworkhashps
+#22 289.8   - gettxout
+#22 289.8   - listaddressgroupings
+#22 289.8   - ping
+#22 289.8   - pruneblockchain
+#22 289.8   - setnetworkactive
+#22 289.8 
+#22 289.8 Cleaning up coverage data
+#22 DONE 289.8s
+
+#23 exporting to oci image format
+#23 exporting layers
+#23 exporting layers 0.9s done
+#23 exporting manifest sha256:3fa75ac81d5fefec13a2c78ac77729d52bffd2a649397552f6976607400c6d34 0.0s done
+#23 exporting config sha256:73161dc1be99c6a1417ff6880217b808ba57f7de9c4a3f99b5ac94d3ceb36671 done
+#23 sending tarball
+#23 ...
+
+#24 importing to docker
+#24 DONE 1.3s
+
+#23 exporting to oci image format
+#23 sending tarball 4.9s done
+#23 DONE 5.8s

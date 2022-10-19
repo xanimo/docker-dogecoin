@@ -11,7 +11,7 @@ COPY /packages/${TARGET_HOST} .
 # configure shell to use bash
 SHELL ["/bin/bash", "-ex", "-o", "pipefail", "-c"]
 
-RUN if [[ $TARGET_HOST == *"i686-"* ]]; then \
+RUN if [[ $TARGET_HOST == *"-w64-mingw32"* ]]; then \
         dpkg --add-architecture i386; \
     fi
 
@@ -41,15 +41,15 @@ FROM depends AS build
 ARG TARGET_HOST
 
 RUN ./autogen.sh
-RUN ./configure --prefix=`pwd`/depends/${TARGET_HOST}
+RUN ./configure --prefix=`pwd`/depends/${TARGET_HOST} $(source $TARGET_HOST; echo $configopts)
 RUN make VERBOSE=1 -j$(nproc)
 
 # functional test suite
 FROM build AS test
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-    curl gcc python2-minimal python3-pip python3-setuptools python3-zmq
-# RUN echo "alias python=python3" >> ~/.bashrc; source ~/.bashrc
-# RUN make -C src check-security
-# RUN make -C src check-symbols
-# RUN ./qa/pull-tester/install-deps.sh
+ARG TARGET_HOST
+RUN apt-get install -y python3-dev
+RUN echo "alias python=python3" >> ~/.bashrc; source ~/.bashrc;
+RUN if [[ $(source $TARGET_HOST; echo $checksecurity) == 1 ]]; then make -C src check-security; fi
+RUN if [[ $(source $TARGET_HOST; echo $checksymbols) == 1 ]]; then make -C src check-symbols; fi
+RUN ./qa/pull-tester/install-deps.sh
+RUN ./qa/pull-tester/rpc-tests.py --coverage
