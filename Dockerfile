@@ -11,7 +11,7 @@ COPY /packages/${TARGET_HOST} .
 # configure shell to use bash
 SHELL ["/bin/bash", "-ex", "-o", "pipefail", "-c"]
 
-RUN if [[ $TARGET_HOST == *"-w64-mingw32"* ]]; then \
+RUN if [[ $TARGET_HOST == *"-w64-mingw32"* ]] || [[ $TARGET_HOST == *"i686-"* ]]; then \
         dpkg --add-architecture i386; \
     fi
 
@@ -34,7 +34,7 @@ COPY /dogecoin /dogecoin
 
 WORKDIR /dogecoin
 
-RUN make -C depends HOST=${TARGET_HOST} NO_QT=1
+RUN make -C depends HOST=${TARGET_HOST} $(source $TARGET_HOST; echo $depopts)
 
 # build dogecoin
 FROM depends AS build

@@ -1,0 +1,515 @@
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 30B 0.0s
+#1 transferring dockerfile: 1.78kB 0.1s done
+#1 DONE 0.1s
+
+#2 [internal] load .dockerignore
+#2 transferring context: 2B 0.1s done
+#2 DONE 0.1s
+
+#4 [auth] amd64/ubuntu:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/amd64/ubuntu:focal
+#3 DONE 1.4s
+
+#5 [base 1/6] FROM docker.io/amd64/ubuntu:focal@sha256:e722c7335fdd0ce77044ab5942cb1fbd2b5f60d1f5416acfcdb0814b2baf7898
+#5 resolve docker.io/amd64/ubuntu:focal@sha256:e722c7335fdd0ce77044ab5942cb1fbd2b5f60d1f5416acfcdb0814b2baf7898 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 101.66kB 0.1s done
+#6 DONE 0.1s
+
+#10 [base 5/6] RUN ./base --host=i686-pc-linux-gnu --docker
+#10 CACHED
+
+#15 [build 1/3] RUN ./autogen.sh
+#15 CACHED
+
+#9 [base 4/6] RUN if [[ i686-pc-linux-gnu == *"-w64-mingw32"* ]] || [[ i686-pc-linux-gnu == *"i686-"* ]]; then         dpkg --add-architecture i386;     fi
+#9 CACHED
+
+#7 [base 2/6] COPY /scripts/base .
+#7 CACHED
+
+#14 [depends 3/3] RUN make -C depends HOST=i686-pc-linux-gnu $(source i686-pc-linux-gnu; echo $depopts)
+#14 CACHED
+
+#8 [base 3/6] COPY /packages/i686-pc-linux-gnu .
+#8 CACHED
+
+#12 [depends 1/3] COPY /dogecoin /dogecoin
+#12 CACHED
+
+#16 [build 2/3] RUN ./configure --prefix=`pwd`/depends/i686-pc-linux-gnu $(source i686-pc-linux-gnu; echo $configopts)
+#16 CACHED
+
+#11 [base 6/6] RUN if [[ i686-pc-linux-gnu == *"-w64-mingw32"* ]]; then         dpkg -s mono-runtime && sudo apt-get remove mono-runtime || echo "Very nothing to uninstall.";         update-alternatives --set i686-pc-linux-gnu-gcc /usr/bin/i686-pc-linux-gnu-gcc-posix;         update-alternatives --set i686-pc-linux-gnu-g++ /usr/bin/i686-pc-linux-gnu-g++-posix;         update-binfmts --import /usr/share/binfmts/wine;     fi
+#11 CACHED
+
+#13 [depends 2/3] WORKDIR /dogecoin
+#13 CACHED
+
+#17 [build 3/3] RUN make VERBOSE=1 -j$(nproc)
+#17 CACHED
+
+#18 [test 1/6] RUN apt-get install -y python3-dev
+#18 0.094 + apt-get install -y python3-dev
+#18 0.128 Reading package lists...
+#18 1.067 Building dependency tree...
+#18 1.271 Reading state information...
+#18 1.486 The following additional packages will be installed:
+#18 1.487   libexpat1-dev libpython3-dev libpython3.8 libpython3.8-dev python3.8-dev
+#18 1.487   zlib1g zlib1g-dev
+#18 1.538 The following NEW packages will be installed:
+#18 1.538   libexpat1-dev libpython3-dev libpython3.8 libpython3.8-dev python3-dev
+#18 1.539   python3.8-dev zlib1g-dev
+#18 1.540 The following packages will be upgraded:
+#18 1.540   zlib1g
+#18 1.930 1 upgraded, 7 newly installed, 0 to remove and 1 not upgraded.
+#18 1.930 Need to get 6425 kB of archives.
+#18 1.930 After this operation, 27.6 MB of additional disk space will be used.
+#18 1.930 Get:1 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 zlib1g amd64 1:1.2.11.dfsg-2ubuntu1.5 [54.2 kB]
+#18 2.647 Get:2 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libexpat1-dev amd64 2.2.9-1ubuntu0.4 [117 kB]
+#18 2.782 Get:3 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libpython3.8 amd64 3.8.10-0ubuntu1~20.04.5 [1625 kB]
+#18 6.304 Get:4 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libpython3.8-dev amd64 3.8.10-0ubuntu1~20.04.5 [3951 kB]
+#18 14.92 Get:5 http://archive.ubuntu.com/ubuntu focal/main amd64 libpython3-dev amd64 3.8.2-0ubuntu2 [7236 B]
+#18 14.93 Get:6 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 zlib1g-dev amd64 1:1.2.11.dfsg-2ubuntu1.5 [155 kB]
+#18 15.26 Get:7 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 python3.8-dev amd64 3.8.10-0ubuntu1~20.04.5 [514 kB]
+#18 16.37 Get:8 http://archive.ubuntu.com/ubuntu focal/main amd64 python3-dev amd64 3.8.2-0ubuntu2 [1212 B]
+#18 16.62 debconf: delaying package configuration, since apt-utils is not installed
+#18 16.65 Fetched 6425 kB in 15s (433 kB/s)
+#18 16.69 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 14207 files and directories currently installed.)
+#18 16.79 Preparing to unpack .../zlib1g_1%3a1.2.11.dfsg-2ubuntu1.5_amd64.deb ...
+#18 16.81 Unpacking zlib1g:amd64 (1:1.2.11.dfsg-2ubuntu1.5) over (1:1.2.11.dfsg-2ubuntu1.3) ...
+#18 16.88 Setting up zlib1g:amd64 (1:1.2.11.dfsg-2ubuntu1.5) ...
+#18 16.94 Selecting previously unselected package libexpat1-dev:amd64.
+#18 16.94 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 14207 files and directories currently installed.)
+#18 16.95 Preparing to unpack .../0-libexpat1-dev_2.2.9-1ubuntu0.4_amd64.deb ...
+#18 16.96 Unpacking libexpat1-dev:amd64 (2.2.9-1ubuntu0.4) ...
+#18 17.00 Selecting previously unselected package libpython3.8:amd64.
+#18 17.00 Preparing to unpack .../1-libpython3.8_3.8.10-0ubuntu1~20.04.5_amd64.deb ...
+#18 17.00 Unpacking libpython3.8:amd64 (3.8.10-0ubuntu1~20.04.5) ...
+#18 17.16 Selecting previously unselected package libpython3.8-dev:amd64.
+#18 17.16 Preparing to unpack .../2-libpython3.8-dev_3.8.10-0ubuntu1~20.04.5_amd64.deb ...
+#18 17.16 Unpacking libpython3.8-dev:amd64 (3.8.10-0ubuntu1~20.04.5) ...
+#18 17.53 Selecting previously unselected package libpython3-dev:amd64.
+#18 17.54 Preparing to unpack .../3-libpython3-dev_3.8.2-0ubuntu2_amd64.deb ...
+#18 17.54 Unpacking libpython3-dev:amd64 (3.8.2-0ubuntu2) ...
+#18 17.57 Selecting previously unselected package zlib1g-dev:amd64.
+#18 17.57 Preparing to unpack .../4-zlib1g-dev_1%3a1.2.11.dfsg-2ubuntu1.5_amd64.deb ...
+#18 17.57 Unpacking zlib1g-dev:amd64 (1:1.2.11.dfsg-2ubuntu1.5) ...
+#18 17.61 Selecting previously unselected package python3.8-dev.
+#18 17.61 Preparing to unpack .../5-python3.8-dev_3.8.10-0ubuntu1~20.04.5_amd64.deb ...
+#18 17.61 Unpacking python3.8-dev (3.8.10-0ubuntu1~20.04.5) ...
+#18 17.64 Selecting previously unselected package python3-dev.
+#18 17.65 Preparing to unpack .../6-python3-dev_3.8.2-0ubuntu2_amd64.deb ...
+#18 17.65 Unpacking python3-dev (3.8.2-0ubuntu2) ...
+#18 17.68 Setting up libexpat1-dev:amd64 (2.2.9-1ubuntu0.4) ...
+#18 17.70 Setting up libpython3.8:amd64 (3.8.10-0ubuntu1~20.04.5) ...
+#18 17.72 Setting up zlib1g-dev:amd64 (1:1.2.11.dfsg-2ubuntu1.5) ...
+#18 17.74 Setting up libpython3.8-dev:amd64 (3.8.10-0ubuntu1~20.04.5) ...
+#18 17.75 Setting up python3.8-dev (3.8.10-0ubuntu1~20.04.5) ...
+#18 17.78 Setting up libpython3-dev:amd64 (3.8.2-0ubuntu2) ...
+#18 17.79 Setting up python3-dev (3.8.2-0ubuntu2) ...
+#18 17.81 Processing triggers for libc-bin (2.31-0ubuntu9.9) ...
+#18 DONE 18.0s
+
+#19 [test 2/6] RUN echo "alias python=python3" >> ~/.bashrc; source ~/.bashrc;
+#19 0.082 + echo 'alias python=python3'
+#19 0.086 + source /root/.bashrc
+#19 0.086 ++ '[' -z '' ']'
+#19 0.086 ++ return
+#19 DONE 0.1s
+
+#20 [test 3/6] RUN if [[ $(source i686-pc-linux-gnu; echo $checksecurity) == 1 ]]; then make -C src check-security; fi
+#20 0.074 ++ source i686-pc-linux-gnu
+#20 0.074 /bin/bash: i686-pc-linux-gnu: No such file or directory
+#20 0.074 ++ echo
+#20 0.074 + [[ '' == 1 ]]
+#20 DONE 0.1s
+
+#21 [test 4/6] RUN if [[ $(source i686-pc-linux-gnu; echo $checksymbols) == 1 ]]; then make -C src check-symbols; fi
+#21 0.069 ++ source i686-pc-linux-gnu
+#21 0.069 /bin/bash: i686-pc-linux-gnu: No such file or directory
+#21 0.069 ++ echo
+#21 0.069 + [[ '' == 1 ]]
+#21 DONE 0.1s
+
+#22 [test 5/6] RUN ./qa/pull-tester/install-deps.sh
+#22 0.110 + ./qa/pull-tester/install-deps.sh
+#22 0.189   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+#22 0.189                                  Dload  Upload   Total   Spent    Left  Speed
+#22 0.189   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+#22 1.491   0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0100 22946    0 22946    0     0  11606      0 --:--:--  0:00:01 --:--:-- 33994
+#22 2.189 v1.0.1.tar.gz: OK
+#22 3.373 Processing ./v1.0.1.tar.gz
+#22 3.560 Building wheels for collected packages: ltc-scrypt
+#22 3.561   Building wheel for ltc-scrypt (setup.py): started
+#22 4.330   Building wheel for ltc-scrypt (setup.py): finished with status 'done'
+#22 4.331   Created wheel for ltc-scrypt: filename=ltc_scrypt-1.0.1-cp38-cp38-linux_x86_64.whl size=43401 sha256=13c5c6c3b9f50b918d8605fc6473885c028ca3319d06cdf81eb5b22389306f68
+#22 4.331   Stored in directory: /tmp/pip-ephem-wheel-cache-fngubppf/wheels/02/83/b6/f5c8fed84d8ea72d6ce4342e51c291f9402a9aca51889ac624
+#22 4.331 Successfully built ltc-scrypt
+#22 4.336 Installing collected packages: ltc-scrypt
+#22 4.342 Successfully installed ltc-scrypt-1.0.1
+#22 DONE 4.4s
+
+#23 [test 6/6] RUN ./qa/pull-tester/rpc-tests.py --coverage
+#23 0.082 + ./qa/pull-tester/rpc-tests.py --coverage
+#23 22.97 Initializing coverage directory at /tmp/coveragei302fysw
+#23 22.97 
+#23 22.97 .....................................................
+#23 50.00 [1mp2p-fullblocktest.py[0m:
+#23 50.00 Pass: [1mTrue[0m, Duration: 27 s
+#23 50.00 
+#23 50.00 .........
+#23 55.01 [1mwallet-hd.py[0m:
+#23 55.01 Pass: [1mTrue[0m, Duration: 32 s
+#23 55.01 
+#23 55.01 .
+#23 56.01 [1mauxpow.py[0m:
+#23 56.01 Pass: [1mTrue[0m, Duration: 6 s
+#23 56.01 
+#23 56.01 .................
+#23 65.03 [1mgetauxblock.py[0m:
+#23 65.03 Pass: [1mTrue[0m, Duration: 10 s
+#23 65.03 
+#23 65.03 ..........
+#23 70.54 [1mwallet-accounts.py[0m:
+#23 70.54 Pass: [1mTrue[0m, Duration: 5 s
+#23 70.54 
+#23 70.54 ....
+#23 73.04 [1mfundrawtransaction.py[0m:
+#23 73.04 Pass: [1mTrue[0m, Duration: 50 s
+#23 73.04 
+#23 73.04 .........
+#23 78.06 [1mwallet-dump.py[0m:
+#23 78.06 Pass: [1mTrue[0m, Duration: 7 s
+#23 78.06 
+#23 78.06 .........................................
+#23 99.09 [1mlisttransactions.py[0m:
+#23 99.09 Pass: [1mTrue[0m, Duration: 26 s
+#23 99.09 
+#23 99.09 .......................
+#23 111.1 [1mp2p-policy.py[0m:
+#23 111.1 Pass: [1mTrue[0m, Duration: 33 s
+#23 111.1 
+#23 111.1 ...................
+#23 121.1 [1mp2p-acceptblock.py[0m:
+#23 121.1 Pass: [1mTrue[0m, Duration: 22 s
+#23 121.1 
+#23 121.1 ...............
+#23 129.1 [1mwallet.py[0m:
+#23 129.1 Pass: [1mTrue[0m, Duration: 73 s
+#23 129.1 
+#23 129.1 ......................
+#23 141.7 [1mzapwallettxes.py[0m:
+#23 141.7 Pass: [1mTrue[0m, Duration: 19 s
+#23 141.7 
+#23 141.7 
+#23 141.7 [1mimportmulti.py[0m:
+#23 141.7 Pass: [1mTrue[0m, Duration: 12 s
+#23 141.7 
+#23 141.7 
+#23 141.7 [1msendheaders.py[0m:
+#23 141.7 Pass: [1mTrue[0m, Duration: 30 s
+#23 141.7 
+#23 141.7 ...........
+#23 147.7 [1mmempool_limit.py[0m:
+#23 147.7 Pass: [1mTrue[0m, Duration: 7 s
+#23 147.7 
+#23 147.7 .......
+#23 151.7 [1mmerkle_blocks.py[0m:
+#23 151.7 Pass: [1mTrue[0m, Duration: 10 s
+#23 151.7 
+#23 151.7 .....
+#23 154.7 [1mreceivedby.py[0m:
+#23 154.7 Pass: [1mTrue[0m, Duration: 13 s
+#23 154.7 
+#23 154.7 ..................
+#23 164.2 [1mabandonconflict.py[0m:
+#23 164.2 Pass: [1mTrue[0m, Duration: 16 s
+#23 164.2 
+#23 164.2 ......
+#23 167.7 [1mreindex.py[0m:
+#23 167.7 Pass: [1mTrue[0m, Duration: 13 s
+#23 167.7 
+#23 167.7 .......
+#23 171.7 [1mrawtransactions.py[0m:
+#23 171.7 Pass: [1mTrue[0m, Duration: 20 s
+#23 171.7 
+#23 171.7 .....
+#23 174.7 [1mp2p_invalid_locator.py[0m:
+#23 174.7 Pass: [1mTrue[0m, Duration: 3 s
+#23 174.7 
+#23 174.7 .
+#23 175.7 [1mp2p-addr.py[0m:
+#23 175.7 Pass: [1mTrue[0m, Duration: 11 s
+#23 175.7 
+#23 175.7 ...
+#23 177.7 [1mmempool_resurrect_test.py[0m:
+#23 177.7 Pass: [1mTrue[0m, Duration: 3 s
+#23 177.7 
+#23 177.7 .................
+#23 186.7 [1mtxn_doublespend.py --mineblock[0m:
+#23 186.7 Pass: [1mTrue[0m, Duration: 11 s
+#23 186.7 
+#23 186.7 ..
+#23 188.8 [1mp2p-tx-download.py[0m:
+#23 188.8 Pass: [1mTrue[0m, Duration: 20 s
+#23 188.8 
+#23 188.8 
+#23 188.8 [1mtxn_clone.py[0m:
+#23 188.8 Pass: [1mTrue[0m, Duration: 11 s
+#23 188.8 
+#23 188.8 .....
+#23 191.8 [1mmempool_spendcoinbase.py[0m:
+#23 191.8 Pass: [1mTrue[0m, Duration: 3 s
+#23 191.8 
+#23 191.8 ...............
+#23 199.8 [1mmempool_reorg.py[0m:
+#23 199.8 Pass: [1mTrue[0m, Duration: 8 s
+#23 199.8 
+#23 199.8 ...
+#23 201.8 [1mwalletbackup.py[0m:
+#23 201.8 Pass: [1mTrue[0m, Duration: 178 s
+#23 201.8 
+#23 201.8 ..
+#23 203.3 [1mrest.py[0m:
+#23 203.3 Pass: [1mTrue[0m, Duration: 15 s
+#23 203.3 
+#23 203.3 ...
+#23 205.3 [1mmulti_rpc.py[0m:
+#23 205.3 Pass: [1mTrue[0m, Duration: 3 s
+#23 205.3 
+#23 205.3 ...
+#23 207.3 [1mhttpbasics.py[0m:
+#23 207.3 Pass: [1mTrue[0m, Duration: 7 s
+#23 207.3 
+#23 207.3 .
+#23 208.3 [1msignrawtransactions.py[0m:
+#23 208.3 Pass: [1mTrue[0m, Duration: 3 s
+#23 208.3 
+#23 208.3 ....
+#23 210.8 [1mdecodescript.py[0m:
+#23 210.8 Pass: [1mTrue[0m, Duration: 2 s
+#23 210.8 
+#23 210.8 .....
+#23 213.8 [1mproxy_test.py[0m:
+#23 213.8 Pass: [1mTrue[0m, Duration: 10 s
+#23 213.8 
+#23 213.8 ....
+#23 217.8 [1mblockchain.py[0m:
+#23 217.8 Pass: [1mTrue[0m, Duration: 5 s
+#23 217.8 
+#23 217.8 
+#23 217.8 [1mnodehandling.py[0m:
+#23 217.8 Pass: [1mTrue[0m, Duration: 9 s
+#23 217.8 
+#23 217.8 
+#23 217.8 [1mdisablewallet.py[0m:
+#23 217.8 Pass: [1mTrue[0m, Duration: 3 s
+#23 217.8 
+#23 217.8 
+#23 217.8 [1mgetchaintips.py[0m:
+#23 217.8 Pass: [1mTrue[0m, Duration: 31 s
+#23 217.8 
+#23 217.8 ...
+#23 219.8 [1mp2p-mempool.py[0m:
+#23 219.8 Pass: [1mTrue[0m, Duration: 3 s
+#23 219.8 
+#23 219.8 ...
+#23 221.9 [1minvalidblockrequest.py[0m:
+#23 221.9 Pass: [1mTrue[0m, Duration: 4 s
+#23 221.9 
+#23 221.9 ..
+#23 223.4 [1mkeypool.py[0m:
+#23 223.4 Pass: [1mTrue[0m, Duration: 7 s
+#23 223.4 
+#23 223.4 ....
+#23 225.9 [1mprioritise_transaction.py[0m:
+#23 225.9 Pass: [1mTrue[0m, Duration: 8 s
+#23 225.9 
+#23 225.9 ...
+#23 228.9 [1mimportprunedfunds.py[0m:
+#23 228.9 Pass: [1mTrue[0m, Duration: 6 s
+#23 228.9 
+#23 228.9 
+#23 228.9 [1mpreciousblock.py[0m:
+#23 228.9 Pass: [1mTrue[0m, Duration: 8 s
+#23 228.9 
+#23 228.9 
+#23 228.9 [1msignmessages.py[0m:
+#23 228.9 Pass: [1mTrue[0m, Duration: 3 s
+#23 228.9 
+#23 228.9 ......
+#23 232.4 [1mcreateauxblock.py[0m:
+#23 232.4 Pass: [1mTrue[0m, Duration: 9 s
+#23 232.4 
+#23 232.4 ........................
+#23 244.9 [1mpaytxfee.py[0m:
+#23 244.9 Pass: [1mTrue[0m, Duration: 16 s
+#23 244.9 
+#23 244.9 ...
+#23 246.9 [1mimport-rescan.py[0m:
+#23 246.9 Pass: [1mTrue[0m, Duration: 19 s
+#23 246.9 
+#23 246.9 .............
+#23 253.9 [1mfeelimit.py[0m:
+#23 253.9 Pass: [1mTrue[0m, Duration: 21 s
+#23 253.9 
+#23 253.9 ....
+#23 256.9 [1mdustlimits.py[0m:
+#23 256.9 Pass: [1mTrue[0m, Duration: 28 s
+#23 256.9 
+#23 256.9 
+#23 256.9 [1mrpcnamedargs.py[0m:
+#23 256.9 Pass: [1mTrue[0m, Duration: 3 s
+#23 256.9 
+#23 256.9 ...............
+#23 265.4 [1mp2p-leaktests.py[0m:
+#23 265.4 Pass: [1mTrue[0m, Duration: 8 s
+#23 265.4 
+#23 265.4 
+#23 265.4 [1mbumpfee.py[0m:
+#23 265.4 Pass: [1mTrue[0m, Duration: 18 s
+#23 265.4 
+#23 265.4 .......
+#23 269.5 [1mreplace-by-fee.py[0m:
+#23 269.5 Pass: [1mTrue[0m, Duration: 4 s
+#23 269.5 
+#23 269.5 ........
+#23 274.0 [1mrescan.py[0m:
+#23 274.0 Pass: [1mTrue[0m, Duration: 8 s
+#23 274.0 
+#23 274.0 ............
+#23 280.5 [1mwallet_create_tx.py[0m:
+#23 280.5 Pass: [1mTrue[0m, Duration: 11 s
+#23 280.5 
+#23 280.5 .....
+#23 283.5 [1maddnode.py[0m:
+#23 283.5 Pass: [1mTrue[0m, Duration: 3 s
+#23 283.5 
+#23 283.5 ......
+#23 287.0 [1mliststucktransactions.py[0m:
+#23 287.0 Pass: [1mTrue[0m, Duration: 13 s
+#23 287.0 
+#23 287.0 .
+#23 288.0 [1mlistsinceblock.py[0m:
+#23 288.0 Pass: [1mTrue[0m, Duration: 31 s
+#23 288.0 
+#23 288.0 ............................
+#23 302.5 [1mzmq_test.py[0m:
+#23 302.5 Pass: [1mTrue[0m, Duration: 19 s
+#23 302.5 
+#23 302.5 
+#23 302.5 [1msetmaxconnections.py[0m:
+#23 302.5 Pass: [1mTrue[0m, Duration: 58 s
+#23 302.5 
+#23 302.5 [1mTEST                           | PASSED | DURATION
+#23 302.5 
+#23 302.5 [0mp2p-fullblocktest.py           | True   | 27 s
+#23 302.5 wallet-hd.py                   | True   | 32 s
+#23 302.5 auxpow.py                      | True   | 6 s
+#23 302.5 getauxblock.py                 | True   | 10 s
+#23 302.5 wallet-accounts.py             | True   | 5 s
+#23 302.5 fundrawtransaction.py          | True   | 50 s
+#23 302.5 wallet-dump.py                 | True   | 7 s
+#23 302.5 listtransactions.py            | True   | 26 s
+#23 302.5 p2p-policy.py                  | True   | 33 s
+#23 302.5 p2p-acceptblock.py             | True   | 22 s
+#23 302.5 wallet.py                      | True   | 73 s
+#23 302.5 zapwallettxes.py               | True   | 19 s
+#23 302.5 importmulti.py                 | True   | 12 s
+#23 302.5 sendheaders.py                 | True   | 30 s
+#23 302.5 mempool_limit.py               | True   | 7 s
+#23 302.5 merkle_blocks.py               | True   | 10 s
+#23 302.5 receivedby.py                  | True   | 13 s
+#23 302.5 abandonconflict.py             | True   | 16 s
+#23 302.5 reindex.py                     | True   | 13 s
+#23 302.5 rawtransactions.py             | True   | 20 s
+#23 302.5 p2p_invalid_locator.py         | True   | 3 s
+#23 302.5 p2p-addr.py                    | True   | 11 s
+#23 302.5 mempool_resurrect_test.py      | True   | 3 s
+#23 302.5 txn_doublespend.py --mineblock | True   | 11 s
+#23 302.5 p2p-tx-download.py             | True   | 20 s
+#23 302.5 txn_clone.py                   | True   | 11 s
+#23 302.5 mempool_spendcoinbase.py       | True   | 3 s
+#23 302.5 mempool_reorg.py               | True   | 8 s
+#23 302.5 walletbackup.py                | True   | 178 s
+#23 302.5 rest.py                        | True   | 15 s
+#23 302.5 multi_rpc.py                   | True   | 3 s
+#23 302.5 httpbasics.py                  | True   | 7 s
+#23 302.5 signrawtransactions.py         | True   | 3 s
+#23 302.5 decodescript.py                | True   | 2 s
+#23 302.5 proxy_test.py                  | True   | 10 s
+#23 302.5 blockchain.py                  | True   | 5 s
+#23 302.5 nodehandling.py                | True   | 9 s
+#23 302.5 disablewallet.py               | True   | 3 s
+#23 302.5 getchaintips.py                | True   | 31 s
+#23 302.5 p2p-mempool.py                 | True   | 3 s
+#23 302.5 invalidblockrequest.py         | True   | 4 s
+#23 302.5 keypool.py                     | True   | 7 s
+#23 302.5 prioritise_transaction.py      | True   | 8 s
+#23 302.5 importprunedfunds.py           | True   | 6 s
+#23 302.5 preciousblock.py               | True   | 8 s
+#23 302.5 signmessages.py                | True   | 3 s
+#23 302.5 createauxblock.py              | True   | 9 s
+#23 302.5 paytxfee.py                    | True   | 16 s
+#23 302.5 import-rescan.py               | True   | 19 s
+#23 302.5 feelimit.py                    | True   | 21 s
+#23 302.5 dustlimits.py                  | True   | 28 s
+#23 302.5 rpcnamedargs.py                | True   | 3 s
+#23 302.5 p2p-leaktests.py               | True   | 8 s
+#23 302.5 bumpfee.py                     | True   | 18 s
+#23 302.5 replace-by-fee.py              | True   | 4 s
+#23 302.5 rescan.py                      | True   | 8 s
+#23 302.5 wallet_create_tx.py            | True   | 11 s
+#23 302.5 addnode.py                     | True   | 3 s
+#23 302.5 liststucktransactions.py       | True   | 13 s
+#23 302.5 listsinceblock.py              | True   | 31 s
+#23 302.5 zmq_test.py                    | True   | 19 s
+#23 302.5 setmaxconnections.py           | True   | 58 s
+#23 302.5 [1m
+#23 302.5 ALL                            | True   | 1075 s (accumulated)[0m
+#23 302.5 
+#23 302.5 Runtime: 280 s
+#23 302.5 Uncovered RPC commands:
+#23 302.5   - estimatefee
+#23 302.5   - estimatepriority
+#23 302.5   - estimatesmartfee
+#23 302.5   - estimatesmartpriority
+#23 302.5   - getaddednodeinfo
+#23 302.5   - getdifficulty
+#23 302.5   - getinfo
+#23 302.5   - getmemoryinfo
+#23 302.5   - getmempoolancestors
+#23 302.5   - getmempooldescendants
+#23 302.5   - getmempoolentry
+#23 302.5   - getmininginfo
+#23 302.5   - getnettotals
+#23 302.5   - getnetworkhashps
+#23 302.5   - gettxout
+#23 302.5   - listaddressgroupings
+#23 302.5   - ping
+#23 302.5   - pruneblockchain
+#23 302.5   - setnetworkactive
+#23 302.5 
+#23 302.5 Cleaning up coverage data
+#23 DONE 302.6s
+
+#24 exporting to oci image format
+#24 exporting layers
+#24 exporting layers 26.2s done
+#24 exporting manifest sha256:021c83af00c4953c37c3af66b2119c3e0dd976f13c13aaa59b94baa9f86f68f1 0.0s done
+#24 exporting config sha256:e47afeae123a5a102165e35c0a938e206118aa78717da01d32c3c9546b964fd8 0.0s done
+#24 sending tarball
+#24 ...
+
+#25 importing to docker
+#25 DONE 13.8s
+
+#24 exporting to oci image format
+#24 sending tarball 19.2s done
+#24 DONE 45.5s

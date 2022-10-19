@@ -1,1 +1,6 @@
-g++-multilib bc python3-pip python3-setuptools python3-zmq
+packages="g++-multilib bc python3-pip python3-setuptools python3-zmq"
+runbench=1
+checksecurity=1
+checksymbols=1
+depopts="NO_QT=1"
+configopts="--enable-zmq --enable-glibc-back-compat LDFLAGS=-static-libstdc++"
