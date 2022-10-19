@@ -67,13 +67,29 @@ if [ "$ERROR" ]; then
     exit $ERROR
 fi
 
+# fetch dogecoin src if it doesn't exist:
+if [ ! -d "dogecoin" ]; then
+    # adjust docker/github repo/branch as needed:
+    git clone https://github.com/xanimo/dogecoin
+    pushd /dogecoin
+        git checkout 1.14.7-dev
+        if [ ! -d "depends/SDKs" ]; then
+            wget https://gist.githubusercontent.com/xanimo/7b3ae8f43e3b8b3834e7e281dc263de2/raw/22c72d80ce1d8e5710a9a2d1edaa8efe2c6f621d/macos-sdk.sh
+            chmod +x macos-sdk.sh
+            ./macos-sdk.sh
+            rm macos-sdk.sh
+        fi
+    popd
+fi
+
 build() {
     # there is no i386/ubuntu:focal image so we have to build on amd64 hence DPKG_ARCH
     docker buildx build \
     --build-arg FLAVOR=${FLAVOR:-"focal"} \
     --build-arg ARCH=$TARGET_ARCH \
     --build-arg TARGET_HOST=$TARGET_HOST_TRIPLET \
-    -t xanimo/dogecoin:$TARGET_HOST_TRIPLET . --load
+    -t xanimo/dogecoin:$TARGET_HOST_TRIPLET . --load \
+    2> $PWD/$TARGET_HOST_TRIPLET-build-log.txt | sleep 2 | tail -f $PWD/$TARGET_HOST_TRIPLET-build-log.txt
 }
 
 if [[ "$ALL_HOST_TRIPLETS" != "" ]]; then
