@@ -1,0 +1,72 @@
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.59kB done
+#2 DONE 0.0s
+
+#1 [internal] load .dockerignore
+#1 transferring context: 2B done
+#1 DONE 0.0s
+
+#4 [auth] amd64/ubuntu:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/amd64/ubuntu:focal
+#3 DONE 1.1s
+
+#5 [base 1/6] FROM docker.io/amd64/ubuntu:focal@sha256:e722c7335fdd0ce77044ab5942cb1fbd2b5f60d1f5416acfcdb0814b2baf7898
+#5 resolve docker.io/amd64/ubuntu:focal@sha256:e722c7335fdd0ce77044ab5942cb1fbd2b5f60d1f5416acfcdb0814b2baf7898 done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 99.80kB 0.1s done
+#6 DONE 0.1s
+
+#15 [build 1/3] RUN ./autogen.sh
+#15 CACHED
+
+#14 [depends 3/3] RUN make -C depends HOST=x86_64-w64-mingw32 NO_QT=1
+#14 CACHED
+
+#8 [base 3/6] COPY /packages/x86_64-w64-mingw32 .
+#8 CACHED
+
+#10 [base 5/6] RUN ./base --host=x86_64-w64-mingw32 --docker
+#10 CACHED
+
+#9 [base 4/6] RUN if [[ x86_64-w64-mingw32 == *"i686-"* ]]; then         dpkg --add-architecture i386;     fi
+#9 CACHED
+
+#12 [depends 1/3] COPY /dogecoin /dogecoin
+#12 CACHED
+
+#13 [depends 2/3] WORKDIR /dogecoin
+#13 CACHED
+
+#17 [build 3/3] RUN make VERBOSE=1 -j$(nproc)
+#17 CACHED
+
+#16 [build 2/3] RUN ./configure --prefix=`pwd`/depends/x86_64-w64-mingw32
+#16 CACHED
+
+#11 [base 6/6] RUN if [[ x86_64-w64-mingw32 == *"-w64-mingw32"* ]]; then         dpkg -s mono-runtime && sudo apt-get remove mono-runtime || echo "Very nothing to uninstall.";         update-alternatives --set x86_64-w64-mingw32-gcc /usr/bin/x86_64-w64-mingw32-gcc-posix;         update-alternatives --set x86_64-w64-mingw32-g++ /usr/bin/x86_64-w64-mingw32-g++-posix;         update-binfmts --import /usr/share/binfmts/wine;     fi
+#11 CACHED
+
+#7 [base 2/6] COPY /scripts/base .
+#7 CACHED
+
+#18 [test 1/1] RUN apt-get update     && apt-get install -y --no-install-recommends     curl gcc python2-minimal python3-pip python3-setuptools python3-zmq
+#18 CACHED
+
+#19 exporting to oci image format
+#19 exporting layers
+#19 exporting layers 0.9s done
+#19 exporting manifest sha256:17005640b76dba724b3c74bc98237902465eea62c1a50cb3f6e1647518a89ff3 0.0s done
+#19 exporting config sha256:68ccee16a180508ef48456035445222f7871b3a347f32a05364706d37d81a14e 0.0s done
+#19 sending tarball
+#19 ...
+
+#20 importing to docker
+#20 DONE 0.4s
+
+#19 exporting to oci image format
+#19 sending tarball 6.8s done
+#19 DONE 7.7s

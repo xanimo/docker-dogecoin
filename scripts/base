@@ -34,5 +34,7 @@ check_tools() {
 }
 
 $USE_SUDO apt-get update
+# base dependencies
 check_tools build-essential libtool autotools-dev automake pkg-config bsdmainutils curl ca-certificates ccache python3 rsync git procps bison
-check_tools $(cat $HOST)
+# architecture specific dependencies
+check_tools $(source $HOST; echo $packages)
