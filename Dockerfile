@@ -35,14 +35,15 @@ COPY /dogecoin /dogecoin
 
 WORKDIR /dogecoin
 
-RUN make -C depends HOST=${TARGET_HOST} $(source $TARGET_HOST; echo $depopts)
+RUN make -C depends HOST=${TARGET_HOST} $(source ../$TARGET_HOST; echo $depopts)
 
-# build dogecoin
+# build dogecoin depends
 FROM depends AS build
 ARG TARGET_HOST
 
 RUN ./autogen.sh
-RUN ./configure --prefix=`pwd`/depends/${TARGET_HOST} $(source $TARGET_HOST; echo $configopts)
+RUN ./configure --prefix=`pwd`/depends/${TARGET_HOST} $(source ../$TARGET_HOST; echo $configopts)
+
 RUN make VERBOSE=1 -j$(nproc)
 
 # functional test suite

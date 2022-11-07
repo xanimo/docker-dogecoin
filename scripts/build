@@ -46,15 +46,24 @@ config_env() {
     esac
 }
 
+URL="https://github.com/xanimo/dogecoin"
+CURRENT_URL=$(git config --get remote.origin.url)
+COMMIT="1.14.7-dev"
 ALL_HOST_TRIPLETS=""
 TARGET_HOST_TRIPLET=""
 for i in "$@"
 do
 case $i in
+    -c=*|--commit=*)
+        COMMIT="${i#*=}"
+    ;;
     -h=*|--host=*)
         HOST="${i#*=}"
         TARGET_HOST_TRIPLET=($HOST)
         config_env
+    ;;
+    -u=*|--url=*)
+        URL="${i#*=}"
     ;;
     *)
         ERROR=1
@@ -70,14 +79,32 @@ fi
 # fetch dogecoin src if it doesn't exist:
 if [ ! -d "dogecoin" ]; then
     # adjust docker/github repo/branch as needed:
-    git clone https://github.com/xanimo/dogecoin
+    git clone $URL
     pushd /dogecoin
-        git checkout 1.14.7-dev
+        git checkout $COMMIT
         if [ ! -d "depends/SDKs" ]; then
             wget https://gist.githubusercontent.com/xanimo/7b3ae8f43e3b8b3834e7e281dc263de2/raw/22c72d80ce1d8e5710a9a2d1edaa8efe2c6f621d/macos-sdk.sh
             chmod +x macos-sdk.sh
             ./macos-sdk.sh
             rm macos-sdk.sh
+        fi
+    popd
+else
+    pushd /dogecoin
+        re="^(https|git)(:\/\/|@)([^\/:]+)[\/:]([^\/:]+)\/(.+)(.git)*$"
+        if [[ $CURRENT_URL =~ $re ]]; then
+            protocol=${BASH_REMATCH[1]}
+            separator=${BASH_REMATCH[2]}
+            hostname=${BASH_REMATCH[3]}
+            user=${BASH_REMATCH[4]}
+            repo=${BASH_REMATCH[5]}
+        fi
+        if [[ $URL != "https://github.com/$user/dogecoin" ]]; then
+            git remote add $user $URL
+            git fetch $user
+        fi
+        if [[ $COMMIT != "1.14.7-dev" ]]; then
+            git checkout $COMMIT
         fi
     popd
 fi
