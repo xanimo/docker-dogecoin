@@ -1,4 +1,4 @@
-FROM ubuntu:focal AS deps
+FROM ubuntu:20.04 AS deps
 
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive \
